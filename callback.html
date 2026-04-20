@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Surge — OAuth callback</title>
+  <style>
+    body { font-family: -apple-system, Segoe UI, sans-serif; background: #0a1420; color: #dbe5f0; padding: 40px; max-width: 720px; margin: auto; }
+    h1 { font-weight: 300; font-size: 28px; }
+    pre { background: #14233a; padding: 16px; border-radius: 10px; overflow-x: auto; user-select: all; }
+    .label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #7f93ac; margin-top: 24px; }
+    .ok { color: #8bd17c; }
+    .warn { color: #eb6f92; }
+  </style>
+</head>
+<body>
+  <h1>⚡ surge — oauth callback</h1>
+  <p>Copy the values below into your local CLI (<code>scripts/oauth-complete.js</code>).</p>
+  <div class="label">code</div>
+  <pre id="code"></pre>
+  <div class="label">state</div>
+  <pre id="state"></pre>
+  <div id="err"></div>
+  <script>
+    const q = new URLSearchParams(location.search);
+    const code = q.get("code");
+    const state = q.get("state");
+    const error = q.get("error");
+    document.getElementById("code").textContent = code || "(none)";
+    document.getElementById("state").textContent = state || "(none)";
+    if (error) {
+      document.getElementById("err").innerHTML =
+        '<div class="label">error</div><pre class="warn">' + q.get("error_description") + '</pre>';
+    } else if (code) {
+      document.getElementById("err").innerHTML = '<p class="ok">ready — paste code + state into CLI.</p>';
+    }
+  </script>
+</body>
+</html>
